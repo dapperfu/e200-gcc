@@ -936,7 +936,7 @@ FreeBSD 7.x, 8.x, 9.0, 9.1, 9.2
      `gm4', which GMP cannot guess.
 
 FreeBSD 7.x, 8.x, 9.x
-     GMP releases starting with 5.2 do not support `ABI=32' on
+     GMP releases starting with 6.0 do not support `ABI=32' on
      FreeBSD/amd64 prior to release 10.0 of the system.  The cause is a
      broken `limits.h', which GMP no longer works around.
 
@@ -1304,20 +1304,20 @@ There are six classes of functions in the GMP library:
      functions in this class.  (*note Integer Functions::)
 
   2. Functions for rational number arithmetic, with names beginning with
-     `mpq_'.  The associated type is `mpq_t'.  There are about 40
+     `mpq_'.  The associated type is `mpq_t'.  There are about 35
      functions in this class, but the integer functions can be used for
      arithmetic on the numerator and denominator separately.  (*note
      Rational Number Functions::)
 
   3. Functions for floating-point arithmetic, with names beginning with
-     `mpf_'.  The associated type is `mpf_t'.  There are about 60
+     `mpf_'.  The associated type is `mpf_t'.  There are about 70
      functions is this class.  (*note Floating-point Functions::)
 
   4. Fast low-level functions that operate on natural numbers.  These
      are used by the functions in the preceding groups, and you can
      also call them directly from very time-critical user programs.
      These functions' names begin with `mpn_'.  The associated type is
-     array of `mp_limb_t'.  There are about 30 (hard-to-use) functions
+     array of `mp_limb_t'.  There are about 60 (hard-to-use) functions
      in this class.  (*note Low-level Functions::)
 
   5. Miscellaneous functions.  Functions for setting up custom
