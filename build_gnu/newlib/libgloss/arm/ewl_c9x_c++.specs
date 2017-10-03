@@ -1,0 +1,13 @@
+%rename subtarget_cpp_spec old_subtarget_cpp_spec
+
+*subtarget_cpp_spec:
+%(old_subtarget_cpp_spec) -nostdinc -nostdinc++ -include lib_c++.prefix
+
+*startfile:
+
+
+*endfile:
+
+
+*link_gcc_c_sequence:
+--start-group -lc99 -lstdc++ -lm -lgcc -lrt -lsupc++ -luart --end-group

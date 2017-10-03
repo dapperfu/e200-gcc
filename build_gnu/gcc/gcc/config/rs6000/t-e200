@@ -1,0 +1,16 @@
+# Multilibs for powerpc e200 embedded ELF targets.
+#
+# What we really want are these variants:
+#	-mcpu=e200z[023467]
+#	-mcpu=e200z[023467] -fshort-double
+#	-mcpu=e200z[023467] -msoft-float
+#	-mcpu=e200z7 -mspe
+# so we'll need to create exceptions later below.
+
+MULTILIB_OPTIONS    = mhard-float fshort-double mspe mcpu=e200z0/mcpu=e200z2/mcpu=e200z3/mcpu=e200z4/mcpu=e200z6/mcpu=e200z7
+
+MULTILIB_DIRNAMES	= fp spfp spe e200z0 e200z2 e200z3 e200z4 e200z6 e200z7
+
+MULTILIB_EXTRA_OPTS	= mstrict-align
+
+MULTILIB_EXCEPTIONS	= fshort-double fshort-double/* *spe/*mcpu=e200z0 *spe/*mcpu=e200z2 *spe/*mcpu=e200z3 *spe/*mcpu=e200z4 *spe/*mcpu=e200z6 

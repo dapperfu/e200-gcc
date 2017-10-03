@@ -1,0 +1,131 @@
+JOBDESC=(
+    ########################  Sources section   ########################
+    # dINSTPREFIX
+    [0]="powerpc-eabivle"
+
+    # dLSTSOURCES
+    [1]="binutils-2.24.90 cloog-0.18.1 gcc-4.9.2 gmp-6.0.0 isl-0.12.2 newlib-2.2.0 libelf-0.8.13 mpc-1.0.2 mpfr-3.1.2 libiconv-1.14 gettext-0.19.4 zlib-1.2.8 expat-2.1.0"
+
+    # dLSTPATCHES
+    [2]=""
+
+
+    ######################## Parameters section ########################
+    # dLSTSTEPS
+    [10]="chk dst rm src intgr gmp mpfr mpc cloog expat sEbin EgccMl Egccl_nano newlib Egccl newlib_nano Wsetup Wiconv Wgtext Wgmp Wmpfr Wmpc Wcloog Wexpat WEbin WEgcc RelNotes"
+    
+    
+    # dTRPTARGET
+    [11]="powerpc-eabivle"
+
+    # dTRPBUILD
+    [12]=""
+
+    # dTRPHOST
+    [13]="i686-mingw32"
+
+    # dARCH
+    [14]=""
+
+    # dTBUILD
+    [15]=""
+
+    # dWTBUILD
+    [16]="i686-w64-mingw32-"
+
+    ########################   Config section   ########################
+    # dBINCONFIG
+    [30]="--enable-poison-system-directories --disable-multilib --disable-nls"
+    #[30]="--enable-poison-system-directories --disable-multilib --disable-shared --disable-nls"
+    #[30]="--enable-poison-system-directories --disable-multilib --disable-shared --disable-nls --disable-plugins"
+
+    # dGCCCONFIG1
+    [31]="'--with-host-libstdcxx=-static-libgcc -Wl,-Bstatic,-lstdc++,-Bdynamic -lm' CFLAGS=-g"
+
+    # dGCCCONFIG2
+    [32]=""
+
+    # dGCCCONFIG3
+    [33]="'--with-host-libstdcxx=-static-libgcc -static -Wl,-Bstatic,-lstdc++ -lm' --disable-libstdcxx-verbose --disable-__cxa_atexit --with-cpu=e200z2 --disable-isl-version-check --disable-libquadmath"
+
+    # dLIBCONFIG
+   [34]="--enable-newlib-io-long-long --enable-newlib-register-fini --disable-newlib-multithread --disable-newlib-supplied-syscalls"
+
+    # dGMPCONFIG32
+    [35]="--enable-cxx"
+
+    # dGMPCONFIG64
+    [36]="--enable-cxx"
+
+    # dTGMPCONFIG32
+    [37]="--enable-cxx"
+
+    # dTGMPCONFIG64
+    [38]="--enable-cxx"
+
+    # dPPLCONFIG32
+    [39]=""
+
+    # dPPLCONFIG64
+    [40]=""
+
+    # dCLOOGCONFIG32
+    [41]=""
+
+    # dCLOOGCONFIG64
+    [42]=""
+
+    # dWGMPCONFIG
+    [43]="--enable-cxx"
+
+    # dWPPLCONFIG
+    [44]=""
+
+    # dWCLOOGCONFIG
+    [45]=""
+
+    # dWBINCONFIG
+    [46]="--disable-nls"
+
+    # dWGCCCONFIG
+    [47]="--with-cpu=e200z2 --enable-languages=c,c++ --disable-shared --disable-threads --with-newlib --with-headers=yes \
+	'--with-host-libstdcxx=-static -static-libgcc -Wl,-Bstatic,-lstdc++,-lwinpthread,-Bdynamic -L\\\$WHOSTLIBINST/usr/lib -lintl -lm'"
+
+    ########################  Multilib section  ########################
+    # dMLSIZE
+    [60]="1"
+
+    # dMLDIRS
+    [61]="."
+
+    # dMLOSDIRS
+    [66]=""
+
+    # dMLCONFIG
+    [62]=""
+
+    # dMLCFLAGS
+    [63]=""
+
+    # dMLTARGET
+    [64]=""
+
+    # dMLDEJAGNU
+    [65]=""
+
+    ########################   Tests section    ########################
+    # dBRDTYPE
+    [70]=""
+
+    # dBRDNAME
+    [71]="powerpc-sim"
+
+    # dBRDHOSTNAME
+    [72]=""
+
+    # dBRDLIBDIR
+    [73]=""
+
+    # dBRDTESTRUNFLAGS
+    [74]=""
+)

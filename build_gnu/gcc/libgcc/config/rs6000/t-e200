@@ -1,0 +1,27 @@
+# These can't end up in shared libgcc
+LIB2ADD_ST += \
+	   $(srcdir)/config/rs6000/e200crtsavgpr.S \
+	   $(srcdir)/config/rs6000/e200crtresgpr.S \
+	   $(srcdir)/config/rs6000/e200crtresxgpr.S \
+	   $(srcdir)/config/rs6000/e200crtres32gpr.S \
+	   $(srcdir)/config/rs6000/e200crtres64gpr.S \
+	   $(srcdir)/config/rs6000/e200crtres64gprctr.S \
+	   $(srcdir)/config/rs6000/e200crtrest32gpr.S \
+	   $(srcdir)/config/rs6000/e200crtrest64gpr.S \
+	   $(srcdir)/config/rs6000/e200crtresx32gpr.S \
+	   $(srcdir)/config/rs6000/e200crtresx64gpr.S \
+	   $(srcdir)/config/rs6000/e200crtsav32gpr.S \
+	   $(srcdir)/config/rs6000/e200crtsav64gpr.S \
+	   $(srcdir)/config/rs6000/e200crtsav64gprctr.S
+
+# We build {e,n}crti.o and {e,n}crtn.o, which serve to add begin and
+# end labels to all of the special sections used when we link using gcc.
+
+# Assemble startup files.
+ecrti$(objext): $(srcdir)/config/rs6000/eabivle-ci.S
+	$(crt_compile) -c $<
+
+ecrtn$(objext): $(srcdir)/config/rs6000/eabivle-cn.S
+	$(crt_compile) -c $<
+
+	   

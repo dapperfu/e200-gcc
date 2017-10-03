@@ -1,0 +1,288 @@
+\input texinfo
+@setfilename releasenotes.info
+@documentencoding UTF-8
+
+@settitle GCC for e200-VLE
+
+@copying
+Copyright © 2016 Freescale Semiconductor, Inc.
+@end copying
+
+
+@titlepage
+@title GNU Tools for e200 processors 
+@subtitle Release Notes
+
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@headings off
+
+@contents
+
+@ifnottex
+@node Top
+@top Foo Compiler
+@insertcopying
+@end ifnottex
+
+@menu
+* Release description::
+* What's new::
+* New features::
+* Known issues::
+* History::
+
+@detailmenu
+New features
+
+* Mixed BookE and VLE assembler::
+* BookE to VLE translation::
+* SPE v2 instruction support::
+
+History
+
+* 1.0::
+* 1.1::
+* 1.1.1::
+* 1.1.2::
+
+@end detailmenu
+@end menu
+
+@node Release description
+@chapter Release description
+
+This release of gcc for e200-VLE supports the "Power Architecture® 32-bit Application Binary Interface Supplement 1.0 - Embedded". It is based on gcc 4.9.2, binutils 2.24 and gdb 7.8.2.
+
+The current release supports VLE codegen for
+@itemize @minus
+@item e200z0
+@item e200z2
+@item e200z3
+@item e200z4
+@item e200z6
+@item e200z7
+@end itemize
+It has built-in MULTILIB support for the e200 with soft-float or the Embedded FPU, libraries also support single precisiom double folding (@option{-fshort-double}) and the SPE. 
+
+This distribution provides support for newlib, newlib-nano and Freescale EWL2. Since distinct libraries are provided, the tools require setting explicitly @option{--sysroot} to perform MULTILIB resolution:
+
+ --sysroot={INSTALL}/powerpc-eabivle/newlib for newlib
+
+ --sysroot={INSTALL}/ewl2 for EWL2
+
+@node What's new
+@chapter What's new
+
+This version 1.1.3 contains critical fixes for issues found in 1.1.2
+@sp
+
+@noindent Fixed:
+@itemize @bullet
+@item
+[ENGR00382613] Typo in extendqisi2 in md causes wrong codegen with se_extsb
+@end itemize
+
+
+
+
+@node New features
+@chapter New features
+
+
+@node Mixed BookE and VLE assembler
+@section Mixed BookE and VLE code assembly and linking 
+
+Use @option{-mno-vle} key to force BookE codegen, even if @option{-mvle} key is used. For mixed VLE & BookE code corresponding linker script shall be provided. 
+
+For example:
+
+@smallexample
+@group
+.text_booke : { INPUT_SECTION_FLAGS (!SHF_PPC_VLE) *(.text*) } > text_e     
+.text_vle :  { INPUT_SECTION_FLAGS (SHF_PPC_VLE) *(.text*) } > m_text       
+@end group
+@end smallexample
+First line  will force pick non-VLE .text sections. Second line will force pick VLE .text sections.    
+
+@sp 2
+
+@node BookE to VLE translation
+@section BookE to VLE translation
+ 
+Use @option{-Wa,-ppc_asm_to_vle} option to enable translation for assembler file. Option requires @option{-mvle} option.
+Following BookE instructions can be translated:
+
+@table @code
+addi addic addic. addis andi. andis. b bc
+bcl bctr bctrl bdnz bdnzl bdz bdzl beq
+beql bf bfl bge bgel bgt bgtl bl
+ble blel blr blt bltl bne bnel bng
+bngl bnl bnll bns bnsl bnu bnul bso
+bsol bt btl bun bunl clrlslwi clrlwi clrrwi
+cmpi cmpli cmplwi cmpwi crand crandc crclr creqv
+crmove crnand crnor crnot cror crorc crset crxor
+extlwi extrwi inslwi insrwi isync lbz lbzu lha
+lhau lhz lhzu li lis lmw lwz lwzu
+mcrf mfdec mtdec mulli nop ori oris rfi
+rlwimi rlwinm rlwnm rotlw rotlw. rotlwi rotrwi
+sc slwi srwi stb stbu sth sthu stmw
+stw stwu subfic subi subic subic. subis xnop
+xori 
+@end table
+
+Follwoing VLE-compatible instructions can be translated to shorter form:
+@table @code
+mr or 
+@end table
+
+@node SPE v2 instruction support
+@section SPE v2 instruction support
+
+Use @option{-mspe2} option to enable SPE2 insrtuctions support in assembler. SPE2 instructions can be used by assembler inline syntax or pure assembler. For example:
+
+@code{__asm("evdotpwcssi 0, 1, 2");}
+
+@sp 1
+List of supported SPE2 instructions can be found in Freescale SPE2PIM Rev.2 08/2011 document.
+
+See current GCC limitations for SPE2 in @ref{Known issues}  
+
+@page
+
+@node Generate error for e200z425 errata
+@section Generate error for e200z425 errata
+There's a problem with the e200z425 cores.
+
+
+The problem occurs at any page with offset 16K + 2 when a long branch with a target displacement of 0x3ffe is preceded by a 32 bit instruction. 
+The code needs to be relinked to be located at another address.
+@sp
+If you want just to disable this error use option @option{-Wl,-no-e200z425-rel-error}
+
+@node Known issues
+@chapter Known issues
+
+SPE2 limitations:
+@itemize @bullet
+@item
+SPE2 intrinsic functions are not implemented.
+@item
+Disassembler doesn't show SPE2 instructions mnemonics.
+@end itemize
+
+
+@node History
+@chapter Release history
+
+
+@multitable @columnfractions .10 .25 .45
+@headitem Version @tab Date @tab Description
+@item 1.0
+@tab 27 November 2015
+@tab @xref{1.0} 
+
+@item 1.1
+@tab 8 June 2016
+@tab @xref{1.1} 
+
+@item 1.1.1
+@tab 23 June 2016
+@tab @xref{1.1.1} 
+
+@item 1.1.2
+@tab 10 August 2016
+@tab @xref{1.1.2} 
+
+@item 1.1.3
+@tab 7 September 2016
+@tab @xref{What's new} 
+@end multitable
+
+@page
+
+@node 1.0
+@section Version 1.0
+@sp 2
+
+@node 1.1
+@section Version 1.1
+
+@noindent Fixed:
+@itemize @bullet
+@item
+[ENGR00377284] Compiler uses stswi/lswi instructions even if they are not supported by e200 when -Os -O3 switches are enabled.
+@item
+[ENGR00377271] Decorated storage instructions should be supported
+@item
+[ENGR00374776] Bitfield write access could be optimized to shorter data type write instr
+@item
+[ENGR00373844] Incorrect code generation for the C expression with optimization level 0.
+@item
+[ENGR00373558] Support /dev/null on Windows for Ecos config tool
+@end itemize
+
+@sp 2
+
+@noindent Changes:
+
+@noindent @bullet{} Following instructions marked as VLE according to PowerISA 2.07b:
+@table @code
+evlddepx evstddepx e_sc se_rfgi sld sld. srad srad. srd srd. stbcx. stbdx stddx stfddx sthcx. sthdx stvebx stvehx stvepx stvepxl stvewx stwdx vcmpbfp. subfo subfo. subfmeo subfmeo.
+@end table
+
+@noindent @bullet{} Changes in accordance with EFP2_rev1.4_spec.pdf:
+
+@indent @minus{} Moved opcodes for 
+@table @code
+efdcfsid efdcfuid efdctsidz efdctuidz
+@end table
+@indent @minus{} Added missed instructions
+@table @code
+evfssqrt evfscfh evfscth evfsmax evfsmin evfsaddsub evfssubadd evfssum evfsdiff evfssumdiff evfsdiffsum evfsaddx evfssubx evfsaddsubx evfssubaddx evfsmulx evfsmule evfsmulo efsmax efsmin efdmadd efdmsub efdnmadd efdnmsub efssqrt efscfh efscth efdmax efdmin efdsqrt efdcfh efdcth
+@end table
+
+@noindent @bullet{} Added mapping for SPE2 instructions in accordance with SPE2PIM Rev.1.0-2:
+@table @code
+evdotphsssi evdotphsssia evdotpwsssi evdotpwsssia
+@end table
+
+@noindent @bullet{} Added instructions from Engineering Bulletin EB689 Rev. 0, 2/2008 for e200z3 and e200z6 cores:
+@table @code
+evfsmadd evfsmsub evfsnmadd evfsnmsub efsmadd efsmsub efsnmadd efsnmsub
+@end table
+
+@page
+
+@node 1.1.1
+@section Version 1.1.1
+
+This version contains critical fixes for version 1.1
+
+@noindent Fixed:
+@itemize @bullet
+@item
+[ENGR00379772] Compiler may generate the instruction e_subfic with invalid immediate value when size optimization is enabled.
+@item
+[ENGR00379484] Compiler assigns a wrong register (r9) when extended inline asm statement with se_bclri %0,%1 instruction is used.
+@*
+@strong{Note:} User should manually set correct constraints for short VLE instructions. Added VLE constraints in documentation.
+@end itemize
+
+@node 1.1.2
+@section Version 1.1.2
+
+@noindent Fixed:
+@itemize @bullet
+@item
+[ENGR00381415] GDB incorrectly prints full expression that this variable object represents
+@*
+@strong{Note:} Utilized patch from @uref{https://sourceware.org/ml/gdb-patches/2014-05/msg00383.html,,this} message in GDB mailing list.
+
+@item
+[ENGR00381558] GCC codegen emits illegal 'stwu' instruction in VLE mode
+@end itemize
+
+@bye

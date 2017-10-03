@@ -1,0 +1,17 @@
+%rename link old_link
+%rename subtarget_cpp_spec old_subtarget_cpp_spec
+
+*subtarget_cpp_spec:
+%(old_subtarget_cpp_spec) -nostdinc -nostdinc++ -include lib_ewl_c++.prefix
+
+*startfile:
+
+
+*endfile:
+
+
+*link_gcc_c_sequence:
+--start-group -lc -lc++ -lm -lgcc -lrt -lsupc++ --end-group
+
+*link:
+%(old_link) %:replace-outfile(-lstdc++ -lc++)
